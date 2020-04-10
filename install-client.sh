@@ -115,6 +115,29 @@ start() {
 			connect
 		fi
 	}
+	function connect() {
+		vpncmd localhost /CLIENT /CMD AccountConnect \$ACCOUNT
+		STATUS=\$(vpncmd localhost /CLIENT /CMD AccountStatusGet \$ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
+		if [ "\$STATUS" = "Connection Completed (Session Established)" ]; then
+			proceed
+		else
+			sleep 1
+			STATUS=\$(vpncmd localhost /CLIENT /CMD AccountStatusGet \$ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
+			if [ "\$STATUS" = "Connection Completed (Session Established)" ]; then
+				proceed
+			else
+				sleep 9
+				STATUS=\$(vpncmd localhost /CLIENT /CMD AccountStatusGet \$ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
+				if [ "\$STATUS" = "Connection Completed (Session Established)" ]; then
+					proceed
+				else
+						vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
+						sleep 2
+						connect
+				fi
+			fi
+		fi
+	}
 	function check() {
 		STATUS=\$(vpncmd localhost /CLIENT /CMD AccountStatusGet \$ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
 		if [ "\$STATUS" = "" ]; then
