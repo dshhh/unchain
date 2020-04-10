@@ -139,7 +139,7 @@ start() {
 					proceed
 				else
 						vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
-						echo Couldn't build connection $SERVER:$PORT:$USERNM-$HUB-$ACCOUNT). Path or Host down. Retrying...
+						echo "\$SERVER:$PORT:$USERNM-$HUB-\$ACCOUNT: Path or Host down. Retrying..."
 						sleep 2
 						connect
 				fi
