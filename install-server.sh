@@ -1,13 +1,15 @@
 #!/bin/sh
-# This script will install SoftEther VPN, enable Secure NAT, and add 1 Hub and 1 User
+# This install script will build SoftEther VPN on this system, enable Secure NAT, add 1 Hub, and 1 User
 # Run this on Debian 10 or Debian 9
-# 4-Feb-2020
-# github.com/sk3dd
+# 10-Apr-2020
+# Author: @
 
-# Set parameters
-read -p 'Set VPN user password (Please only use letters and numbers [a-zA-Z0-9], periods [.], and exclamation marks [!]): ' PASSWD
-USERNM=unchainVpnUser
+# Generic variables
+USERNM=u2ch412_default
 HUB=vhub
+
+# Individual variables
+read -p 'Set VPN user password (Please only use letters and numbers [a-zA-Z0-9], periods [.], and exclamation marks [!]): ' PASSWD
 USERNMLC=$(echo "$USERNM" | tr '[:upper:]' '[:lower:]')
 
 echo "That's it. Starting setup in 3…"; sleep 1; echo "2…"; sleep 1; echo "1…"
