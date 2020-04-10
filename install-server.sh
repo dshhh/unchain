@@ -12,7 +12,7 @@ HUB=vhub
 read -p 'Set VPN user password (Please only use letters and numbers [a-zA-Z0-9], periods [.], and exclamation marks [!]): ' PASSWD
 USERNMLC=$(echo "$USERNM" | tr '[:upper:]' '[:lower:]')
 
-echo "That's it. Starting setup in 3…"; sleep 1; echo "2…"; sleep 1; echo "1…"
+echo "That's it. Starting setup in 3..."; sleep 1; echo "2..."; sleep 1; echo "1..."
 
 # Download packages
 apt-get install sudo build-essential libreadline-dev libssl-dev libncurses-dev zlib1g-dev git cmake -y
