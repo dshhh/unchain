@@ -1,12 +1,13 @@
 #!/bin/sh
-# This script will install SoftEther VPN, add a startup script, configure additional features and set up a connection with a pre-configured server
+# This install script will build SoftEther VPN as init.d service on this system, flush routing table, restard udhcpd and change DNS and LED config
+# VPN starts/stops according to the switch button position (Left = ON / Right = OFF)
 # Run this on gl.inet AR300M Firmware 3.024 with OpenWrt 18.06.1 or similar
-# 4-Feb-2020
-# github.com/sk3dd
+# 10-Apr-2020
+# Author: @
 
 # Generic variables
 PORT=443
-USERNM=unchainVpnUser
+USERNM=u2ch412_default
 HUB=vhub
 ACCOUNT=vpn_0
 DNS1=1.1.1.1
@@ -69,7 +70,7 @@ function fetchip() {
 			printf '%s\n' "Couldn't fetch IP address. Something went wrong. The router may not be connected to the Internet."
 		fi
 	fi
-	printf '%s\n' "Your new IP address is: \$IP4"
+	printf '%s\n' "Connection up. Your new IP address is: \$IP4"
 }
 start() {
 	LOCK=/var/lock/sevpn.lock
@@ -138,6 +139,7 @@ start() {
 					proceed
 				else
 						vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
+						echo Couldn't build connection $SERVER:$PORT:$USERNM-$HUB-$ACCOUNT). Path or Host down. Retrying...
 						sleep 2
 						connect
 				fi
@@ -281,9 +283,9 @@ if [ -n "$SWITCH_LEFT" ]; then
 		;;
 		*)
 			echo -e
-			echo Proceeding due to a timeout…
+			echo Proceeding due to a timeout. . .
 			sleep 1
-			echo Starting VPN connection…
+			echo Starting VPN connection. . .
 			/etc/init.d/sevpn start
 		;;
 	esac
