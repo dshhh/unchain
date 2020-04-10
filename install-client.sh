@@ -18,7 +18,7 @@ read -p "Enter VPN server address: " SERVER
 read -p "Enter VPN user password: " PASSWD
 
 # Start
-echo "That's it. Starting setup…"
+echo "That's it. Starting setup. . ."
 
 # Download packages
 opkg install softethervpn
