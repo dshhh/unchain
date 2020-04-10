@@ -18,7 +18,7 @@ read -p "Enter VPN server address: " SERVER
 read -p "Enter VPN user password: " PASSWD
 
 # Start
-echo "That's it. Starting setup. . ."
+echo "That's it. Starting setup..."
 
 # Download packages
 opkg install softethervpn
@@ -283,9 +283,9 @@ if [ -n "$SWITCH_LEFT" ]; then
 		;;
 		*)
 			echo -e
-			echo Proceeding due to a timeout. . .
+			echo Proceeding due to a timeout...
 			sleep 1
-			echo Starting VPN connection. . .
+			echo Starting VPN connection...
 			/etc/init.d/sevpn start
 		;;
 	esac
