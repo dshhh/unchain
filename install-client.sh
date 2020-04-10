@@ -4,14 +4,20 @@
 # 4-Feb-2020
 # github.com/sk3dd
 
-# Set parameters
-read -p "Enter VPN server address: " SERVER
-read -p "Enter VPN user password: " PASSWD
+# Generic variables
+PORT=443
 USERNM=unchainVpnUser
 HUB=vhub
 ACCOUNT=vpn_0
 DNS1=1.1.1.1
 DNS2=8.8.8.8
+
+# Individual variables
+read -p "Enter VPN server address: " SERVER
+read -p "Enter VPN user password: " PASSWD
+
+# Start
+echo "That's it. Starting setup…"
 
 # Download packages
 opkg install softethervpn
@@ -28,7 +34,7 @@ fi
 
 # Configure VPN
 vpncmd localhost /CLIENT /CMD NicCreate 0
-vpncmd localhost /CLIENT /CMD AccountCreate $ACCOUNT /SERVER:$SERVER:443 /HUB:$HUB /USERNAME:$USERNM /NICNAME:0
+vpncmd localhost /CLIENT /CMD AccountCreate $ACCOUNT /SERVER:$SERVER:$PORT /HUB:$HUB /USERNAME:$USERNM /NICNAME:0
 vpncmd localhost /CLIENT /CMD AccountPasswordSet $ACCOUNT /PASSWORD:${PASSWD//!/\!} /TYPE:standard >/dev/null
 
 # Create init.d service
