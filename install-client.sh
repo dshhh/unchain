@@ -133,7 +133,7 @@ start() {
 			if [ "\$STATUS" = "Connection Completed (Session Established)" ]; then
 				proceed
 			else
-				sleep 9
+				sleep 7
 				STATUS=\$(vpncmd localhost /CLIENT /CMD AccountStatusGet \$ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
 				if [ "\$STATUS" = "Connection Completed (Session Established)" ]; then
 					proceed
