@@ -58,4 +58,5 @@ This box is portable and built for traveling, public Wi-Fi environments, and wor
 ## Info
 
 Protocol: HTTP over TLS (SoftEther VPN)
+
 Server port: 443
