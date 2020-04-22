@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Debian (Cloud) Server
+- A Debian cloud server or Docker image
 
 - GL iNet GL-AR300M Mini Router
 
@@ -24,32 +24,38 @@
 ```
 apt update
 apt install git -y
-git clone https://github.com/sk3dd/unchain
+git clone https://github.com/da9d/unchain
 cd unchain/
 chmod +x install-server.sh
 ./install-server.sh
-#** Set a password and go **#
+#** Set a password and go **
 ```
 
 2. Install Client with git (AR300M Mini Router):
 
 ```
-#** Connect router with Internet, wired (Ethernet) or wireless (Repeater mode) **#
-#** ssh root@192.168.8.1 **#
+#** Connect router to Internet via WAN port or Wi-Fi (Repeater mode) **
+#** ssh root@192.168.8.1 **
 opkg update
 opkg install git-http
-git clone https://github.com/sk3dd/unchain
+git clone https://github.com/da9d/unchain
 cd unchain/
 chmod +x install-client.sh
 ./install-client.sh
-#** Enter server IP and password and go **#
+#** Enter server IP, password and go **
 ```
 
 ## Use
 
-- Switch button right turns VPN off, left turns it on
-- LED shows VPN status and VPN traffic
+This box is portable and built for traveling, public Wi-Fi environments, and working remotely. It's super easy to use:
+
+- VPN starts automatically
+- Use switch button to turn VPN on/off (Left = ON / Right = OFF)
+- Both WAN port and LAN port can be used or use one or both wireless (see 'Repeater mode'), it will be auto detected
+- LED shows VPN status (up) and VPN traffic (flashing)
+- Reboot may be required after install
 
 ## Info
 
-Protocol: Ethernet over HTTPS (HTTP Over TLS 1.2) (SoftEther VPN)
+Protocol: HTTP over TLS (SoftEther VPN)
+Server port: 443
