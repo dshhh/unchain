@@ -1,19 +1,20 @@
 #!/bin/sh
-# This install script will build SoftEther VPN as init.d service on this system, flush routing table, restard udhcpd and change DNS and LED config
+# This install script will build SoftEther VPN as init.d service on this system, flush and recreate routing table, restard udhcpd, add iptables forwarding rule for virtual vpn interface, and change switch button configuration
 # VPN starts/stops according to the switch button position (Left = ON / Right = OFF)
-# Run this on gl.inet AR300M Firmware 3.024 with OpenWrt 18.06.1 or similar
-# 10-Apr-2020
-# Author: @
+# Run this on gl.inet AR300M Firmware 3.104 with OpenWrt 18.06.1 or similar
+# 16-Sep-2020
+# Author: @swizx
 
 # Generic variables
 PORT=443
 USERNM=u2ch412_default
 HUB=vhub
 ACCOUNT=vpn_0
-DNS1=1.1.1.1
-DNS2=8.8.8.8
+#MIN_COMPLEXITY# DNS and LED settings have been disabled
+#MIN_COMPLEXITY#DNS1=1.1.1.1
+#MIN_COMPLEXITY#DNS2=8.8.8.8
 
-# Individual variables
+# User variables
 read -p "Enter VPN server address: " SERVER
 read -p "Enter VPN user password: " PASSWD
 
@@ -27,15 +28,19 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-# Stop and disable obsolete services
+# Stop and disable redundant services
 /etc/init.d/softethervpnbridge disable
 /etc/init.d/softethervpnserver disable
 /etc/init.d/softethervpnbridge stop
 /etc/init.d/softethervpnserver stop
 
-# Configure VPN
+# Create VPN interface
 vpncmd localhost /CLIENT /CMD NicCreate 0
+
+# Create VPN user account
 vpncmd localhost /CLIENT /CMD AccountCreate $ACCOUNT /SERVER:$SERVER:$PORT /HUB:$HUB /USERNAME:$USERNM /NICNAME:0
+
+# Set VPN user password
 vpncmd localhost /CLIENT /CMD AccountPasswordSet $ACCOUNT /PASSWORD:${PASSWD//!/\!} /TYPE:standard >/dev/null
 
 # Create init.d service
@@ -46,8 +51,9 @@ STOP=15
 ### Server IP
 SERVER=$SERVER
 ### Custom DNS (Let’s avoid DNS leaks)
-DNS1=$DNS1
-DNS2=$DNS2
+#MIN_COMPLEXITY# Automatic DNS config has been removed. Please change DNS server manually using the web interface. Add DNS server '192.168.30.1' to avoid DNS leaks.
+#MIN_COMPLEXITY#DNS1=$DNS1
+#MIN_COMPLEXITY#DNS2=$DNS2
 ### Name of Account (Default: vpn_0)
 ACCOUNT=$ACCOUNT
 UPTIME=\$(awk '{print \$1}' /proc/uptime)
@@ -81,22 +87,22 @@ start() {
 	function proceed() {
 		DNIC=\$(/sbin/ip route | awk '/default/ { print \$5 }')
 		DEFAULT=\$(/sbin/ip route | awk '/default/ { print \$3; exit }')
-		LEDVPN=\$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print \$0 }')
-		echo netdev> /sys/class/leds/\$LEDVPN/trigger
-		echo vpn_0> /sys/class/leds/\$LEDVPN/device_name
-		echo 'link tx rx'> /sys/class/leds/\$LEDVPN/mode
+#MIN_COMPLEXITY#		LEDVPN=\$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print \$0 }')
+#MIN_COMPLEXITY#		echo netdev> /sys/class/leds/\$LEDVPN/trigger
+#MIN_COMPLEXITY#		echo vpn_0> /sys/class/leds/\$LEDVPN/device_name
+#MIN_COMPLEXITY#		echo 'link tx rx'> /sys/class/leds/\$LEDVPN/mode
 		echo \$DNIC > "/tmp/sevpn-dnic"
 		ip r flush table main
 		route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
 		udhcpc -i \$DNIC -q
-		uci set dhcp.@dnsmasq[0].server=\$DNS1
-		uci add_list dhcp.@dnsmasq[0].server=\$DNS2
-		uci set dhcp.@dnsmasq[0].noresolv='1'
-		uci set glconfig.general.auto_dns='0'
-		uci set glconfig.general.manual_dns='1'
-		uci commit dhcp
-		uci commit glconfig.general
-		/etc/init.d/dnsmasq restart
+#MIN_COMPLEXITY#		uci set dhcp.@dnsmasq[0].server=\$DNS1
+#MIN_COMPLEXITY#		uci add_list dhcp.@dnsmasq[0].server=\$DNS2
+#MIN_COMPLEXITY#		uci set dhcp.@dnsmasq[0].noresolv='1'
+#MIN_COMPLEXITY#		uci set glconfig.general.auto_dns='0'
+#MIN_COMPLEXITY#		uci set glconfig.general.manual_dns='1'
+#MIN_COMPLEXITY#		uci commit dhcp
+#MIN_COMPLEXITY#		uci commit glconfig.general
+#MIN_COMPLEXITY#		/etc/init.d/dnsmasq restart
 		ip r a \$SERVER via \$DEFAULT
 		udhcpc -i vpn_0 -q
 		iptables -A forwarding_rule -o vpn_0 -j ACCEPT
@@ -108,18 +114,6 @@ start() {
 		else
 			sleep 1
 			/etc/init.d/sevpn stop
-		fi
-	}
-	function connect() {
-		vpncmd localhost /CLIENT /CMD AccountConnect \$ACCOUNT
-		sleep 1
-		STATUS=\$(vpncmd localhost /CLIENT /CMD AccountStatusGet \$ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
-		if [ "\$STATUS" = "Connection Completed (Session Established)" ]; then
-			proceed
-		else
-			vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
-			sleep 2
-			connect
 		fi
 	}
 	function connect() {
@@ -174,16 +168,16 @@ stop() {
 		if [ -f /tmp/sevpn-dnic ]; then
 			DNIC=\$(cat /tmp/sevpn-dnic)
 		fi
-		LEDVPN=\$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print \$0 }')
+#MIN_COMPLEXITY#		LEDVPN=\$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print \$0 }')
 		vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
-		echo 'none'> /sys/class/leds/\$LEDVPN/mode
-		uci delete dhcp.@dnsmasq[0].server
-		uci delete dhcp.@dnsmasq[0].noresolv
-		uci set glconfig.general.manual_dns='0'
-		uci set glconfig.general.auto_dns='1'
-		uci commit dhcp
-		uci commit glconfig.general
-		/etc/init.d/dnsmasq restart
+#MIN_COMPLEXITY#		echo 'none'> /sys/class/leds/\$LEDVPN/mode
+#MIN_COMPLEXITY#		uci delete dhcp.@dnsmasq[0].server
+#MIN_COMPLEXITY#		uci delete dhcp.@dnsmasq[0].noresolv
+#MIN_COMPLEXITY#		uci set glconfig.general.manual_dns='0'
+#MIN_COMPLEXITY#		uci set glconfig.general.auto_dns='1'
+#MIN_COMPLEXITY#		uci commit dhcp
+#MIN_COMPLEXITY#		uci commit glconfig.general
+#MIN_COMPLEXITY#		/etc/init.d/dnsmasq restart
 		ip r flush table main
 		route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
 		if [ -f /tmp/sevpn-dnic ]; then
@@ -209,7 +203,7 @@ chmod 0755 /etc/init.d/sevpn
 # Enable startup script
 /etc/init.d/sevpn enable
 
-# Configure switch button for VPN
+# Create switch button action script to be able to disconnect from VPN easily
 mv /usr/bin/switchaction /usr/bin/switchaction.bak
 cat > /usr/bin/switchaction << EOF
 #!/bin/sh
@@ -252,10 +246,10 @@ set_function
 EOF
 chmod 0755 /usr/bin/switchaction
 
-# Disable initswitch since it has been integrated in sevpn
+# Disable initswitch as it has been integrated in init.d/sevpn service
 /etc/init.d/initswitch disable
 
-# Enable switch button
+# Enable and configure switch button
 uci set glconfig.switch_button=service
 uci set glconfig.switch_button.enable='1'
 uci set glconfig.switch_button.function='sevpn'
@@ -265,13 +259,13 @@ uci set glconfig.switch_button.enable='1'
 uci set glconfig.switch_button.function='sevpn'
 EOT
 
-# Finish and ask for connection
+# Finish, last chance to abort server call
 echo VPN is ready.
 sleep 1
 echo 'Use side switch to start/stop VPN. (Left = ON / Right = OFF)'
 SWITCH_LEFT=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
 if [ -n "$SWITCH_LEFT" ]; then
-	read -t 10 -r -p "Side switch is currently turned left. Establish connection now? [y/N] " response
+	read -t 15 -r -p "Side switch is currently turned left. Establish connection now? [y/N] " response
 	case "$response" in
 		[yY][eE][sS]|[yY])
 			echo Starting VPN connection…
