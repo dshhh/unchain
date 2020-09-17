@@ -49,7 +49,7 @@ chmod +x install-client.sh
 
 This box is portable and built for traveling, public Wi-Fi environments, and working remotely. It's super easy to use:
 
-- You can use WAN port or connect wireless to public hotspots (see 'Repeater mode'), it will be auto detected during startup
+- You can use WAN port or connect wirelessly to public hotspots (see 'Repeater mode'), it will be auto detected during startup
 - Use switch button to turn VPN on/off (Left = ON / Right = OFF), keep the button left and VPN always starts automatically
 - Simply connect your devices via LAN or WLAN
 
