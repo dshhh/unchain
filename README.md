@@ -51,7 +51,7 @@ This box is portable and built for traveling, public Wi-Fi environments, and wor
 
 - You can use WAN port or connect wireless to public hotspots (see 'Repeater mode'), it will be auto detected during startup
 - Use switch button to turn VPN on/off (Left = ON / Right = OFF), keep the button left and VPN always starts automatically
-- Simply connect your devices to the box via LAN or WLAN
+- Simply connect your devices via LAN or WLAN
 
 Keep in mind that there is no kill switch since this is not meant to be a privacy protector. Your traffic will be highly encrypted but the actual purpose of this VPN is to penetrate firewalls and allow you to use blocked protocols like IPsec in weird locations. Be safe and happy travels! :)
 
