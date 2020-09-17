@@ -1,14 +1,14 @@
 #!/bin/sh
-# This install script will build SoftEther VPN on this system, enable Secure NAT, add 1 Hub, and 1 User
+# This install script will build the latest stable version of SoftEther VPN on this system, enable SecureNAT, add one virtual hub, and one user
 # Run this on Debian 10 or Debian 9
-# 10-Apr-2020
-# Author: @
+# 17-Sep-2020
+# Author: @swizx
 
 # Generic variables
 USERNM=u2ch412_default
 HUB=vhub
 
-# Individual variables
+# User variables
 read -p 'Set VPN user password (Please only use letters and numbers [a-zA-Z0-9], periods [.], and exclamation marks [!]): ' PASSWD
 USERNMLC=$(echo "$USERNM" | tr '[:upper:]' '[:lower:]')
 
@@ -34,7 +34,7 @@ cd ./SoftEtherVPN_Stable
 make
 make install
 
-# Start and setup SoftEther VPN
+# Start and setup SoftEther VPN, enable SecureNAT, create a virtual hub, a user, and set a password
 sudo -u "$USERNMLC" -H sh -c "
 sudo vpnserver start &&
 sleep 1 &&
