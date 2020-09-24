@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- A Debian cloud server or Docker image (e.g. Vultr)
+- A Debian cloud server or Docker image (e.g. Vultr, AWS, etc)
 
 - GL iNet GL-AR300M Mini Router
 
