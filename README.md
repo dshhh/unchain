@@ -35,7 +35,7 @@ chmod +x install-server.sh
 
 ```
 # Before you start make sure the router is connected to the internet, either via WAN port or Wi-Fi (Repeater mode)
-# Connect any device and open secure shell: ssh root@192.168.8.1
+# Open secure shell: ssh root@192.168.8.1
 opkg update
 opkg install git-http
 git clone https://github.com/swizx/unchain
