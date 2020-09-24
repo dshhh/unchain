@@ -53,7 +53,7 @@ This box is portable and built for traveling, public Wi-Fi environments, and wor
 - Use the switch button to disconnect the VPN (Left = ON / Right = OFF) - Keep the button left to always let the VPN start automatically
 - Simply connect your devices via LAN port or Wi-Fi network
 
-Keep in mind that thus VPN traffic is highly encrypted there will be no kill switch since this is not meant to be a privacy protector. The purpose of this VPN is to penetrate firewalls and allowing the user to use blocked protocols like IPsec in weird locations. Be safe and happy travels!
+Note that while VPN traffic is highly encrypted there will be no kill switch since this is not meant to be a privacy protector. The purpose of this VPN is to penetrate firewalls and allowing the user to use blocked protocols like IPsec in weird locations. Be safe and happy travels!
 
 ## Troubleshooting
 
