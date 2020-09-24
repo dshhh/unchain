@@ -49,16 +49,16 @@ chmod +x install-client.sh
 
 This box is portable and built for traveling, public Wi-Fi environments, and working remotely. It's super easy to use:
 
-- You can use WAN port or connect wirelessly to public hotspots (see 'Repeater mode'), it will be auto detected
-- Use switch button to turn VPN on/off (Left = ON / Right = OFF), keep the button left and VPN always starts automatically
-- Simply connect your devices via LAN or WLAN
+- You can use the WAN port or connect wirelessly to public hotspots (see 'Repeater mode') - The used port will be auto detected
+- Use the switch button to disconnect the VPN (Left = ON / Right = OFF) - Keep the button left to always let the VPN start automatically
+- Simply connect your devices via LAN port or Wi-Fi network
 
-Keep in mind that there is no kill switch since this is not meant to be a privacy protector. Your traffic will be highly encrypted but the actual purpose of this VPN is to penetrate firewalls and allow you to use blocked protocols like IPsec in weird locations. Be safe and happy travels!
+Keep in mind that thus VPN traffic is highly encrypted there will be no kill switch since this is not meant to be a privacy protector. The purpose of this VPN is to penetrate firewalls and allowing the user to use blocked protocols like IPsec in weird locations. Be safe and happy travels!
 
 ## Troubleshooting
 
-- Sometimes it helps to turn off 'DNS Rebinding Attack Protection' if you encounter problems with obtaining the captive portal from public hotspots
-- DNS queries will be sent to the hotspot gateway, to route them through VPN as well set 'Manual DNS Server Settings' to 192.168.30.1
+- Sometimes it helps to turn off 'DNS Rebinding Attack Protection' if you encounter problems with obtaining the captive portal from public hotspots.
+- DNS queries will be sent to the default gateway. This could be considered a DNS leak. To encrypt your DNS queries and route them through the VPN as well use the web interface and set 'Manual DNS Server Settings' to '192.168.30.1'.
 
 ## Info
 
