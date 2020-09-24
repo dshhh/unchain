@@ -1,0 +1,160 @@
+#!/bin/sh /etc/rc.common
+START=99
+STOP=15
+### Server IP
+SERVER=18.156.137.47
+### Custom DNS (Let’s avoid DNS leaks)
+# Automatic DNS config has been removed. Please change DNS server manually using the web interface. Add DNS server '192.168.30.1' to avoid DNS leaks.
+#DNS1=
+#DNS2=
+### Name of Account (Default: vpn_0)
+ACCOUNT=vpn_0
+UPTIME=$(awk '{print $1}' /proc/uptime)
+UPTIME=${UPTIME%.*}
+function ready() {
+	WAIT=79
+	if [ $UPTIME -ge $WAIT ]; then
+		$1
+	else
+ 		SLEEP=$(($WAIT - $UPTIME))
+		sleep $SLEEP
+		$1
+	fi
+}
+function fetchip() {
+	IP4=$(curl -s ifconfig.co -4)
+	if [ $? -ne 0 ]; then
+		IP4=$(curl -s checkip.amazonaws.com)
+		if [ $? -ne 0 ]; then
+			printf '%s\n' "Couldn't fetch IP address. Something went wrong. The router may not be connected to the Internet."
+		fi
+	fi
+	printf '%s\n' "Connection up. Your new IP address is: $IP4"
+}
+start() {
+	LOCK=/var/lock/sevpn.lock
+	if [ -f "$LOCK" ]; then
+		exit 0
+	fi
+	touch $LOCK
+	function proceed() {
+		DNIC=$(/sbin/ip route | awk '/default/ { print $5 }')
+		DEFAULT=$(/sbin/ip route | awk '/default/ { print $3; exit }')
+#		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
+#		echo netdev> /sys/class/leds/$LEDVPN/trigger
+#		echo vpn_0> /sys/class/leds/$LEDVPN/device_name
+#		echo 'link tx rx'> /sys/class/leds/$LEDVPN/mode
+		echo $DNIC > "/tmp/sevpn-dnic"
+		ip r flush table main
+		route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
+		udhcpc -i $DNIC -q
+#		uci set dhcp.@dnsmasq[0].server=$DNS1
+#		uci add_list dhcp.@dnsmasq[0].server=$DNS2
+#		uci set dhcp.@dnsmasq[0].noresolv='1'
+#		uci set glconfig.general.auto_dns='0'
+#		uci set glconfig.general.manual_dns='1'
+#		uci commit dhcp
+#		uci commit glconfig.general
+#		/etc/init.d/dnsmasq restart
+		ip r a $SERVER via $DEFAULT
+		udhcpc -i vpn_0 -q
+		iptables -A forwarding_rule -o vpn_0 -j ACCEPT
+		fetchip
+		rm $LOCK
+##		SWITCH_LEFT=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
+##		if [ -n "$SWITCH_LEFT" ]; then
+			exit 0
+##		else
+##			sleep 1
+##			/etc/init.d/sevpn stop
+##		fi
+	}
+	function connect() {
+		vpncmd localhost /CLIENT /CMD AccountConnect $ACCOUNT
+		STATUS=$(vpncmd localhost /CLIENT /CMD AccountStatusGet $ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
+		if [ "$STATUS" = "Connection Completed (Session Established)" ]; then
+			proceed
+		else
+			sleep 1
+			STATUS=$(vpncmd localhost /CLIENT /CMD AccountStatusGet $ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
+			if [ "$STATUS" = "Connection Completed (Session Established)" ]; then
+				proceed
+			else
+				sleep 7
+				STATUS=$(vpncmd localhost /CLIENT /CMD AccountStatusGet $ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
+				if [ "$STATUS" = "Connection Completed (Session Established)" ]; then
+					proceed
+				else
+						vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
+						echo "$SERVER:443:u2ch412_default-vhub-$ACCOUNT: Path or Host down. Retrying..."
+						sleep 2
+						connect
+				fi
+			fi
+		fi
+	}
+	function check() {
+		STATUS=$(vpncmd localhost /CLIENT /CMD AccountStatusGet $ACCOUNT | sed -n -e 's/^.*Session Status                            |//p')
+		if [ "$STATUS" = "" ]; then
+			if [ -f /tmp/sevpn-dnic ]; then
+				rm $LOCK
+				/etc/init.d/sevpn restart
+			fi
+				connect
+		else
+			rm $LOCK
+			/etc/init.d/sevpn restart
+		fi
+	}
+	SWITCH_LEFT=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
+##	if [ -n "$SWITCH_LEFT" ]; then
+		ready check
+##	else
+##		echo 'Side switch is currently turned right.'
+##		echo 'Use side switch to start/stop VPN. (Left = ON / Right = OFF)'
+##		rm $LOCK
+##		exit 0
+##	fi
+}
+stop() {
+	LOCK=/var/lock/sevpn.lock
+	if [ -f "$LOCK" ]; then
+		exit 0
+	fi
+	touch $LOCK
+	function stop() {
+		if [ -f /tmp/sevpn-dnic ]; then
+			DNIC=$(cat /tmp/sevpn-dnic)
+		fi
+#		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
+		vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
+#		echo 'none'> /sys/class/leds/$LEDVPN/mode
+#		uci delete dhcp.@dnsmasq[0].server
+#		uci delete dhcp.@dnsmasq[0].noresolv
+#		uci set glconfig.general.manual_dns='0'
+#		uci set glconfig.general.auto_dns='1'
+#		uci commit dhcp
+#		uci commit glconfig.general
+#		/etc/init.d/dnsmasq restart
+		if [ -f /tmp/sevpn-dnic ]; then
+			ip r flush table main
+			route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
+			udhcpc -i $DNIC -q
+##		else
+##			udhcpc
+		fi
+		fetchip
+		if [ -f /tmp/sevpn-dnic ]; then
+			rm /tmp/sevpn-dnic
+		fi
+		rm $LOCK
+##		SWITCH_LEFT=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
+##		if [ -n "$SWITCH_LEFT" ]; then
+##			sleep 1
+##			/etc/init.d/sevpn start
+##		else
+##			exit 0
+##		fi
+	}
+	ready stop
+}
