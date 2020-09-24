@@ -50,45 +50,7 @@ chmod 0755 /etc/init.d/sevpn
 
 # Create switch button action script to be able to disconnect from VPN easily
 mv /usr/bin/switchaction /usr/bin/switchaction.bak
-cat > /usr/bin/switchaction << EOF
-#!/bin/sh
-set_function(){
-	# Using lock, avoid restart repeatedly
-	LOCK=/var/lock/switch.lock
-	if [ -f "\$LOCK" ];then
-		exit 0
-	fi
-	touch \$LOCK
-	switch_disabled="0"
-	switch_enabled=\$(uci get glconfig.switch_button.enable)
-	switch_func=\$(uci get glconfig.switch_button.function)
-	switch_left=\$(grep -o "left.*hi" /sys/kernel/debug/gpio)
-	if [ "\$switch_disabled" = "1" ] || [ "\$switch_enabled" != "1" ]; then
-		rm \$LOCK
-		exit 0
-	fi
-	#if switch is on left
-	if [ -n "\$switch_left" ]; then
-		case "\$switch_func" in
-			"sevpn")
-				/etc/init.d/sevpn start
-			;;
-			"*")
-			;;
-		esac
-	else
-		case "\$switch_func" in
-			"sevpn")
-				/etc/init.d/sevpn stop
-			;;
-			"*")
-			;;
-		esac
-	fi
-	rm \$LOCK
-}
-set_function
-EOF
+cat ./switchaction > /usr/bin/switchaction
 chmod 0755 /usr/bin/switchaction
 
 # Disable initswitch as it has been integrated in init.d/sevpn service
