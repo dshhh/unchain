@@ -10,9 +10,6 @@ PORT=443
 USERNM=u2ch412_default
 HUB=vhub
 ACCOUNT=vpn_0
-#MIN_COMPLEXITY# DNS and LED settings have been disabled
-#MIN_COMPLEXITY#DNS1=1.1.1.1
-#MIN_COMPLEXITY#DNS2=8.8.8.8
 
 # User variables
 read -p "Enter VPN server address: " SERVER
