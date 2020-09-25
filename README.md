@@ -49,9 +49,9 @@ chmod +x install-client.sh
 
 This box is portable and built for traveling, public Wi-Fi environments, and working remotely. It's super easy to use:
 
-- You can use the WAN port or connect wirelessly to public hotspots (see 'Repeater mode') - The used port will be auto detected
-- Use the switch button to disconnect the VPN (Left = ON / Right = OFF) - Keep the button left to always let the VPN start automatically
-- Simply connect your devices via LAN port or Wi-Fi network
+- You can use the WAN port or connect wirelessly to public hotspots (see 'Repeater mode')
+- Use the switch button to disconnect the VPN (Left = ON / Right = OFF) or keep the button left to make the VPN start automatically at all times
+- Simply connect your devices to the box via LAN port or Wi-Fi network
 
 Note that while VPN traffic is highly encrypted there will be no kill switch since this is not meant to be a privacy protector. The purpose of this VPN is to penetrate firewalls and allowing the user to use blocked protocols like IPsec in weird locations. Be safe and happy travels!
 
