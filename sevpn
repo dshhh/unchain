@@ -2,7 +2,7 @@
 START=99
 STOP=15
 ### Server IP
-SERVER=18.156.137.47
+SERVER=
 ### Name of Account (Default: vpn_0)
 ACCOUNT=vpn_0
 UPTIME=$(awk '{print $1}' /proc/uptime)
