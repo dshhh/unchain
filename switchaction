@@ -18,7 +18,7 @@ set_function(){
 	if [ -n "$switch_left" ]; then
 		case "$switch_func" in
 			"sevpn")
-				/etc/init.d/sevpn start
+				/etc/init.d/sevpn start > /var/log/sevpn.log 
 			;;
 			"*")
 			;;
@@ -26,7 +26,7 @@ set_function(){
 	else
 		case "$switch_func" in
 			"sevpn")
-				/etc/init.d/sevpn stop
+				/etc/init.d/sevpn stop > /var/log/sevpn.log
 			;;
 			"*")
 			;;
