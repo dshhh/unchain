@@ -2,7 +2,7 @@
 START=99
 STOP=15
 ### Server IP
-SERVER=
+SERVER=18.156.137.47
 ### Name of Account (Default: vpn_0)
 ACCOUNT=vpn_0
 UPTIME=$(awk '{print $1}' /proc/uptime)
@@ -36,6 +36,11 @@ start() {
 	function proceed() {
 		DNIC=$(/sbin/ip route | awk '/default/ { print $5 }')
 		DEFAULT=$(/sbin/ip route | awk '/default/ { print $3; exit }')
+# Uncomment to enable VPN status LED
+#		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
+#		echo netdev> /sys/class/leds/$LEDVPN/trigger
+#		echo vpn_0> /sys/class/leds/$LEDVPN/device_name
+#		echo 'link tx rx'> /sys/class/leds/$LEDVPN/mode
 		echo $DNIC > "/tmp/sevpn-dnic"
 		ip r flush table main
 		route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
@@ -84,8 +89,7 @@ start() {
 			/etc/init.d/sevpn restart
 		fi
 	}
-	SWITCH_LEFT=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
-		ready check
+	ready check
 }
 stop() {
 	LOCK=/var/lock/sevpn.lock
@@ -94,19 +98,18 @@ stop() {
 	fi
 	touch $LOCK
 	function stop() {
-		if [ -f /tmp/sevpn-dnic ]; then
-			DNIC=$(cat /tmp/sevpn-dnic)
-		fi
 		vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
 		if [ -f /tmp/sevpn-dnic ]; then
+			DNIC=$(cat /tmp/sevpn-dnic)
+			rm /tmp/sevpn-dnic
 			ip r flush table main
 			route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
 			udhcpc -i $DNIC -q
 		fi
+# Uncomment to enable VPN status LED
+#		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
+#		echo 'none'> /sys/class/leds/$LEDVPN/mode
 		fetchip
-		if [ -f /tmp/sevpn-dnic ]; then
-			rm /tmp/sevpn-dnic
-		fi
 		rm $LOCK
 	}
 	ready stop
