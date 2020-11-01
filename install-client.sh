@@ -1,9 +1,8 @@
 #!/bin/sh
-# This install script will build SoftEther VPN as init.d service on this system, flush and recreate routing table, restard udhcpd, add iptables forwarding rule for virtual vpn interface, and change switch button configuration
+# This install script will build SoftEther VPN as init.d service on this system, flush and recreate routing table, restard udhcpd, add iptables forwarding rules for the virtual vpn interface, and create an action script for the switch button
 # VPN starts/stops according to the switch button position (Left = ON / Right = OFF)
 # Run this on gl.inet AR300M Firmware 3.104 with OpenWrt 18.06.1 or similar
-# 25-Sep-2020
-# Author: @swizx
+# Author: @bhadid
 
 # Generic variables
 PORT=443
