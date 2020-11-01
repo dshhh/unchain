@@ -34,7 +34,7 @@ chmod +x install-server.sh
 2. Install Client with git (AR300M Mini Router):
 
 ```
-# Before you start make sure the router has internet connection, either via WAN port or Wi-Fi (Repeater mode)
+# Before you start make sure the router is connected to the internet, either via WAN port or Wi-Fi (Repeater mode)
 # Open secure shell: ssh root@192.168.8.1
 opkg update
 opkg install git-http
