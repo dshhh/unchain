@@ -1,6 +1,6 @@
 # unchain
 
-unchain is a SoftEther VPN gateway on a tiny portable router.
+unchain is a SoftEther VPN gateway on a tiny portable box.
 
 ## Requirements
 
