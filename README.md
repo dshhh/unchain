@@ -1,4 +1,6 @@
-# unchain: Mobile VPN Gateway
+# unchain
+
+unchain is a SoftEther VPN gateway on a tiny portable router.
 
 ## Requirements
 
@@ -51,7 +53,7 @@ This box is portable and built for traveling, public Wi-Fi environments, and wor
 
 - You can use the WAN port or connect wirelessly to public hotspots (see 'Repeater mode')
 - Use the switch button to disconnect from VPN (Left = ON / Right = OFF) or keep the button left to make the VPN start automatically at all times
-- Simply connect any devices to the box via LAN port or Wi-Fi network and enjoy your unrestricted network
+- Simply connect any devices to the box via LAN port or Wi-Fi network and enjoy your unrestricted network experience
 
 You can permanently disable the VPN with
 
