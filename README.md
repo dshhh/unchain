@@ -1,4 +1,4 @@
-# unchain - Mobile VPN Gateway
+# unchain: Mobile VPN Gateway
 
 ## Requirements
 
