@@ -72,7 +72,7 @@ Note that while VPN traffic is highly encrypted (AES 128) and hashed (SHA-1) the
 ## Troubleshooting
 
 - Sometimes it helps to turn off 'DNS Rebinding Attack Protection' if you encounter problems with obtaining the captive portal from public hotspots.
-- DNS queries will be sent to the default gateway. That means they are not routed trough the VPN. This is the best fit for most use cases but could cause a DNS leak. To encrypt your DNS queries and route them through the VPN as well use the web interface and set 'Manual DNS Server Settings' to '192.168.30.1'. This will make the VPN server your only source for DNS.
+- DNS queries will be sent to the local default gateway. That means they are not routed trough the VPN. This is a good configuration for many use cases but could cause your DNS traffic to leak. To encrypt your DNS queries and route them through the VPN as well use the web interface and set 'Manual DNS Server Settings' to '192.168.30.1'. This will make the VPN server your only source for DNS.
 
 ## Info
 
