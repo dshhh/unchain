@@ -76,6 +76,6 @@ Note that while VPN traffic is encrypted (AES 128) and hashed (SHA-1) there will
 
 ## Info
 
-Protocol: HTTP over TLS (SoftEther VPN)
+Protocol: TLS (SoftEther VPN)
 
 Server port: TCP 443
