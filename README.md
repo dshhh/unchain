@@ -67,7 +67,7 @@ or re-enable with
 /etc/init.d/sevpn enable
 ```
 
-Note that while VPN traffic is encrypted (AES 128) and hashed (SHA-1) there will be no kill switch since this is not meant to be a privacy protector. The purpose of this VPN is to penetrate firewalls and allowing the user to use blocked protocols like IPsec in weird locations. Be safe and happy travels!
+Note that while VPN traffic is encrypted (AES 128) and hashed (SHA-1) there will be no kill switch since this is not meant to be a privacy protector. The purpose of this VPN is to pass through firewalls and allowing the user to use blocked protocols like IPsec in weird locations. Be safe and happy travels!
 
 ## Troubleshooting
 
