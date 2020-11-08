@@ -36,7 +36,7 @@ chmod +x install-server.sh
 2. Install Client with git (AR300M Mini Router):
 
 ```
-# Before you start make sure the router is connected to the internet, either via WAN port or Wi-Fi (Repeater mode)
+# Before you start make sure the router is connected to the internet, either via Ethernet or Wi-Fi (Repeater mode)
 # Open secure shell: ssh root@192.168.8.1
 opkg update
 opkg install git-http
@@ -49,13 +49,13 @@ chmod +x install-client.sh
 
 ## Use
 
-This box is portable and built for traveling, public Wi-Fi environments, and working remotely. It's super easy to use:
+This box is portable and built for traveling, public Wi-Fi environments, and remote work. It's super easy to use:
 
 - You can use the WAN port or connect wirelessly to public hotspots (see 'Repeater mode')
-- Use the switch button to disconnect from VPN (Left = ON / Right = OFF) or keep the button left to make the VPN start automatically at all times
-- Simply connect any devices to the box via LAN port or Wi-Fi network and enjoy your unrestricted network
+- Use the switch button to start and stop the VPN
+- Simply connect any device to the box via LAN port or Wi-Fi network and enjoy your unrestricted network
 
-You can permanently disable the VPN with
+You can permanently disable unchain with
 
 ```
 /etc/init.d/sevpn disable
