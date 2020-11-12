@@ -26,7 +26,7 @@ unchain is a SoftEther VPN gateway on a tiny portable box.
 ```
 apt update
 apt install git -y
-git clone https://github.com/bhadid/unchain
+git clone https://github.com/swizx/unchain
 cd unchain/
 chmod +x install-server.sh
 ./install-server.sh
@@ -40,7 +40,7 @@ chmod +x install-server.sh
 # Open secure shell: ssh root@192.168.8.1
 opkg update
 opkg install git-http
-git clone https://github.com/bhadid/unchain
+git clone https://github.com/swizx/unchain
 cd unchain/
 chmod +x install-client.sh
 ./install-client.sh
