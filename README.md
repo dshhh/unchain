@@ -1,6 +1,6 @@
 # 
 
-This SoftEther VPN gateway on GL-AR300M allows you to pass through firewalls and use potentially blocked protocols like IPsec.
+This SoftEther VPN gateway on GL-AR300M allows you to pass through firewalls and use potentially blocked protocols like IPsec almost everywhere.
 
 ## Requirements
 
