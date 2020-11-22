@@ -1,6 +1,6 @@
 # 
 
-This SoftEther VPN gateway on GL-AR300M allows you to pass through firewalls and use potentially blocked protocols like IPsec almost everywhere.
+This install script allows you to pass through firewalls and use potentially blocked protocols like IPsec in remote locations.
 
 ## Requirements
 
@@ -30,13 +30,13 @@ chmod +x install-client.sh
 
 ## Use
 
-This box is portable and built for traveling, public Wi-Fi environments, and remote work. It's super easy to use:
+This box is portable and built for traveling, public Wi-Fi environments, and remote work. It's easy to use:
 
-- You can connect wirelessly to public hotspots (see 'Repeater mode')
 - Use the switch next to the reset button to switch VPN on or off
 - Simply connect any device to the box via LAN port or Wi-Fi network and enjoy your unrestricted network
+- You can connect wirelessly to public hotspots (see 'Repeater mode')
 
-You can permanently disable unchain with
+You can permanently disable the process with
 
 ```
 /etc/init.d/sevpn disable
@@ -58,6 +58,6 @@ Protocol: TLS (SoftEther VPN)
 
 Server port: TCP 443
 
-Encryption: AES 128
+Encryption: AES 128 or AES 256
 
 Hash: SHA-1
