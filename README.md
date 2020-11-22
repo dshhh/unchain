@@ -58,6 +58,6 @@ Protocol: TLS (SoftEther VPN)
 
 Server port: TCP 443
 
-Encryption: AES 128 or AES 256
+Encryption: AES 128, AES 256
 
 Hash: SHA-1
