@@ -1,6 +1,6 @@
 # 
 
-This install script allows you to pass through firewalls and use potentially blocked protocols like IPsec in remote locations.
+
 
 ## Requirements
 
