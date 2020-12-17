@@ -1,16 +1,12 @@
 #!/bin/sh
-# This install script will build SoftEther VPN as init.d service on this system, flush and recreate routing table, restard udhcpd, add iptables forwarding rules for the virtual vpn interface, and create an action script for the switch button
-# VPN starts/stops according to the switch button position (Left = ON / Right = OFF)
-# Run this on gl.inet AR300M Firmware 3.104 with OpenWrt 18.06.1 or similar
-# Author: @bhadid
 
-# Generic variables
+# Pre configured parameters
 PORT=443
 USERNM=u2ch412_default
 HUB=vhub
 ACCOUNT=vpn_0
 
-# User variables
+# User input parameters
 read -p "Enter VPN server address: " SERVER
 read -p "Enter VPN user password: " PASSWD
 
@@ -71,10 +67,10 @@ sleep 1
 echo 'Use side switch to start/stop VPN. (Left = ON / Right = OFF)'
 SWITCH_LEFT=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
 if [ -n "$SWITCH_LEFT" ]; then
-	read -t 15 -r -p "Side switch is currently turned left. Establish connection now? [y/N] " response
+	read -t 15 -r -p "VPN is ready. Establish connection now? [y/N] " response
 	case "$response" in
 		[yY][eE][sS]|[yY])
-			echo Starting VPN connection…
+			echo Starting VPN connection...
 			/etc/init.d/sevpn start
 		;;
 		[nN][oO]|[nN]|$'\x1b')
@@ -90,7 +86,22 @@ if [ -n "$SWITCH_LEFT" ]; then
 		;;
 	esac
 else
-	sleep 1
-	echo Side switch is currently turned right. VPN remains disconnected.
-	exit 0
+	read -t 15 -r -p "VPN is ready. Establish connection now? [y/N] " response
+	case "$response" in
+		[yY][eE][sS]|[yY])
+			echo Starting VPN connection...
+			/etc/init.d/sevpn start
+		;;
+		[nN][oO]|[nN]|$'\x1b')
+			echo OK. Remaining disconnected.
+			exit 0
+		;;
+		*)
+			echo -e
+			echo Proceeding due to a timeout...
+			sleep 1
+			echo Starting VPN connection...
+			/etc/init.d/sevpn start
+		;;
+	esac
 fi
