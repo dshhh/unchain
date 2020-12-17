@@ -1,16 +1,16 @@
-# 
+# unchain
 
-
+Install script for SoftEther VPN on GL-AR300M
 
 ## Requirements
 
-- 1x A Debian cloud server or Docker image (e.g. Vultr, AWS, etc)
+- 1x Debian 9 or 10, Cloud server or Docker image
 
-- 1x GL iNet GL-AR300M Mini Router
+- 1x GL-AR300M Mini Router
 
 ## Install
 
-1. Install Server (Debian 10 or 9):
+1. Install Server (Debian 9 or 10):
 
 ```
 chmod +x install-server.sh
@@ -18,7 +18,7 @@ chmod +x install-server.sh
 # Set a password
 ```
 
-2. Install Client (AR300M Mini Router):
+2. Install Client (GL-AR300M):
 
 ```
 # Make sure internet is connected
@@ -30,12 +30,12 @@ chmod +x install-client.sh
 
 ## Use
 
-This box is portable and built for traveling, public Wi-Fi environments, and remote work. It's easy to use:
-
-- Use the switch next to the reset button to switch VPN on or off
-- Simply connect any device to the box via LAN port or Wi-Fi network and enjoy your unrestricted network
-- You can connect wirelessly to public hotspots (see 'Repeater mode')
-
+- portable, built for traveling, public Wi-Fi, and remote work
+- easy to use:
+  ^ Turn VPN on/off with the switch button
+  ^ Connect any type of device to the box and enjoy your unrestricted network via LAN or WLAN
+  ^ Connect wirelessly to public hotspots (see 'Repeater mode')
+`
 You can permanently disable the process with
 
 ```
@@ -57,7 +57,3 @@ or re-enable with
 Protocol: TLS (SoftEther VPN)
 
 Server port: TCP 443
-
-Encryption: AES 128, AES 256
-
-Hash: SHA-1
