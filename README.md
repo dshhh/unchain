@@ -2,8 +2,6 @@
 
 SoftEther VPN installer for Debian and OpenWrt Client on GL-AR300M
 
-Author @daviddue
-
 ## Requirements
 
 - 1x Debian Server (_buster_ (Debian 10) or _stretch_ (Debian 9))
