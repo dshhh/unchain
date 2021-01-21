@@ -1,16 +1,18 @@
 # unchain
 
-Install script for SoftEther VPN on GL-AR300M
+SoftEther VPN installer for Debian and OpenWrt Client on GL-AR300M
+
+Author @daviddue
 
 ## Requirements
 
-- 1x Debian 9 or 10, Cloud server or Docker image
+- 1x Debian Server (_buster_ (Debian 10) or _stretch_ (Debian 9))
 
 - 1x GL-AR300M Mini Router
 
 ## Install
 
-1. Install Server (Debian 9 or 10):
+1. Install Server (Debian):
 
 ```
 ./install-server.sh
@@ -28,10 +30,10 @@ opkg install git-http
 
 ## Use
 
-* portable, built for travel, public Wi-Fi, and remote work
-* easy to use:
+* Portable, built for travel, public Wi-Fi, and remote work
+* Easy to use:
   * Turn VPN on/off with the switch button
-  * Connect any type of device to the box and enjoy an unrestricted network via LAN or WLAN
+  * Connect any type of device to the box and enjoy a unrestricted network via LAN or WLAN
   * Connect wirelessly to public hotspots (see 'Repeater mode')
 
 You can permanently disable the process with
@@ -40,7 +42,7 @@ You can permanently disable the process with
 /etc/init.d/sevpn disable
 ```
 
-or re-enable with
+Or re-enable with
 
 ```
 /etc/init.d/sevpn enable
