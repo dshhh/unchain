@@ -13,7 +13,6 @@ Install script for SoftEther VPN on GL-AR300M
 1. Install Server (Debian 9 or 10):
 
 ```
-chmod +x install-server.sh
 ./install-server.sh
 # Set a password
 ```
@@ -23,19 +22,18 @@ chmod +x install-server.sh
 ```
 # Make sure internet is connected
 opkg install git-http
-chmod +x install-client.sh
 ./install-client.sh
-# Enter server IP and password
+# Enter server IP and the password
 ```
 
 ## Use
 
-- portable, built for traveling, public Wi-Fi, and remote work
-- easy to use:
-  ^ Turn VPN on/off with the switch button
-  ^ Connect any type of device to the box and enjoy your unrestricted network via LAN or WLAN
-  ^ Connect wirelessly to public hotspots (see 'Repeater mode')
-`
+* portable, built for travel, public Wi-Fi, and remote work
+* easy to use:
+  * Turn VPN on/off with the switch button
+  * Connect any type of device to the box and enjoy an unrestricted network via LAN or WLAN
+  * Connect wirelessly to public hotspots (see 'Repeater mode')
+
 You can permanently disable the process with
 
 ```
@@ -54,6 +52,6 @@ or re-enable with
 
 ## Info
 
-Protocol: TLS (SoftEther VPN)
+Protocol: SoftEther VPN
 
 Server port: TCP 443
