@@ -1,6 +1,6 @@
 # unchain
 
-SoftEther VPN installer for Debian and a GL-AR300M Mini Router.
+SoftEther VPN installer for Debian and a GL-AR300M Mini Router
 
 ## Requirements
 
