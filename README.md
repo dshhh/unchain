@@ -31,7 +31,7 @@ opkg install git-http
 * Easy to use:
   * Turn on/off with the switch button
   * Connect any type of device to the Wi-Fi from the box (or Ethernet)
-  * Connect to wireless networks through the Web UI (see 'Repeater mode')
+  * Connect to wireless networks through the Web UI (see 'Repeater mode') or use Ethernet WAN port
 
 You can permanently disable with
 
