@@ -6,7 +6,7 @@ SoftEther VPN installer for Debian and a GL-AR300M Mini Router.
 
 - 1x Debian _buster_ (Debian 10) or _stretch_ (Debian 9) Cloud-hosted or elsewhere
 
-- 1x GL-AR300M Mini Router (factory state running GL default OS on OpenWrt)
+- 1x GL-AR300M Mini Router (factory state, running GL default OS on OpenWrt)
 
 ## Install
 
@@ -48,10 +48,10 @@ Or re-enable with
 
 ## Troubleshooting
 
-- Turn off 'DNS Rebinding Attack Protection' in Web UI if you encounter problems with receiving the captive portal from public hotspots
+Turn off 'DNS Rebinding Attack Protection' in Web UI if you encounter problems with receiving the captive portal from public hotspots.
 
 ## Protocol Info
 
 SoftEther VPN aims for bypassing network filters and firewalls by finding any encapsulating method that works, including HTTPS (TLS 1.2) and SSH encapsulation.
 
-Server port statically set to TCP 443
+Server port statically set to TCP 443.
