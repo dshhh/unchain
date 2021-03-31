@@ -51,6 +51,6 @@ Or re-enable with
 
 ## Protocol Info
 
-SoftEther VPN aims to tunnel through network filters and firewalls by bypassing them and finding any encapsulating method that works, including HTTPS (TLS 1.2) and SSH encapsulation.
+SoftEther VPN aims for bypassing network filters and firewalls by finding any encapsulating method that works, including HTTPS (TLS 1.2) and SSH encapsulation.
 
 Server port statically set to TCP 443
