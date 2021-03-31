@@ -1,12 +1,12 @@
 # unchain
 
-SoftEther VPN installer for Debian and OpenWrt Client on GL-AR300M
+SoftEther VPN installer for Debian and a GL-AR300M Mini Router.
 
 ## Requirements
 
-- 1x Debian Server (_buster_ (Debian 10) or _stretch_ (Debian 9))
+- 1x Debian _buster_ (Debian 10) or _stretch_ (Debian 9) Cloud-hosted or elsewhere
 
-- 1x GL-AR300M Mini Router
+- 1x GL-AR300M Mini Router (factory state running GL default OS on OpenWrt)
 
 ## Install
 
@@ -17,24 +17,23 @@ SoftEther VPN installer for Debian and OpenWrt Client on GL-AR300M
 # Set a password
 ```
 
-2. Install Client (GL-AR300M):
+2. Install Client (OpenWrt, GL-AR300M):
 
 ```
-# Make sure internet is connected
 opkg install git-http
 ./install-client.sh
-# Enter server IP and the password
+# Enter server IP and password
 ```
 
 ## Use
 
 * Portable, built for travel, public Wi-Fi, and remote work
 * Easy to use:
-  * Turn VPN on/off with the switch button
-  * Connect any type of device to the box and enjoy a unrestricted network via LAN or WLAN
-  * Connect wirelessly to public hotspots (see 'Repeater mode')
+  * Turn on/off with the switch button
+  * Connect any type of device to the Wi-Fi from the box (or Ethernet)
+  * Connect to wireless networks through the Web UI (see 'Repeater mode')
 
-You can permanently disable the process with
+You can permanently disable with
 
 ```
 /etc/init.d/sevpn disable
@@ -48,10 +47,10 @@ Or re-enable with
 
 ## Troubleshooting
 
-- Turn off 'DNS Rebinding Attack Protection' if you encounter problems with obtaining the captive portal from public hotspots
+- Turn off 'DNS Rebinding Attack Protection' in Web UI if you encounter problems with receiving the captive portal from public hotspots
 
-## Info
+## Protocol Info
 
-Protocol: SoftEther VPN
+SoftEther VPN aims to tunnel through network filters and firewalls by bypassing them and finding any encapsulating method that works, including HTTPS (TLS 1.2) and SSH encapsulation.
 
-Server port: TCP 443
+Server port statically set to TCP 443
