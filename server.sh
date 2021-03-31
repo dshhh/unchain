@@ -11,13 +11,6 @@ USERNMLC=$(echo "$USERNM" | tr '[:upper:]' '[:lower:]')
 
 echo "That's it. Starting setup in 3..."; sleep 1; echo "2..."; sleep 1; echo "1..."
 
-# Download packages
-apt-get install sudo build-essential libreadline-dev libssl-dev libncurses-dev zlib1g-dev git cmake -y
-if [ $? -ne 0 ]; then
-	echo "Failed to download packages. Run 'apt update' and try again."
-	exit 1
-fi
-
 # Add user to run service in user space
 adduser --disabled-password --gecos '' $USERNMLC
 usermod -aG sudo $USERNMLC
@@ -44,11 +37,9 @@ retVal=$?
 
 # Exit
 if [ $retVal -ne 0 ]; then
-	echo "Error occured."
+	echo "Unknown Error."
 elif [ $retVal -eq 0 ]; then
-	echo "Hub created successfully."
-	echo "User created successfully."
-	echo "VPN is ready."
+	echo "SoftEther VPN is ready."
 	exit $retVal
 fi
 if [ $retVal -eq 57 ]; then
