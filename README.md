@@ -13,7 +13,7 @@ SoftEther VPN installer for Debian and a GL-AR300M Mini Router.
 1. Install Server (Debian):
 
 ```
-./install-server.sh
+./server.sh
 # Set a password
 ```
 
@@ -21,7 +21,7 @@ SoftEther VPN installer for Debian and a GL-AR300M Mini Router.
 
 ```
 opkg install git-http
-./install-client.sh
+./client.sh
 # Enter server IP and password
 ```
 
