@@ -36,6 +36,7 @@ start() {
 	function proceed() {
 		DNIC=$(/sbin/ip route | awk '/default/ { print $5 }')
 		DEFAULT=$(/sbin/ip route | awk '/default/ { print $3; exit }')
+		NET=$(/sbin/ip address | awk '/br-lan/ {print $0}' | awk '/inet/ {print $2}' | awk -F. '{print $1 "." $2 "." $3 ".0"; exit}')
 # Uncomment to enable VPN status LED
 #		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
 #		echo netdev> /sys/class/leds/$LEDVPN/trigger
@@ -43,7 +44,7 @@ start() {
 #		echo 'link tx rx'> /sys/class/leds/$LEDVPN/mode
 		echo $DNIC > "/tmp/sevpn-dnic"
 		ip r flush table main
-		route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
+		route add -net $NET netmask 255.255.255.0 dev br-lan
 		udhcpc -i $DNIC -q
 		ip r a $SERVER via $DEFAULT
 		udhcpc -i vpn_0 -q
@@ -103,7 +104,7 @@ stop() {
 			DNIC=$(cat /tmp/sevpn-dnic)
 			rm /tmp/sevpn-dnic
 			ip r flush table main
-			route add -net 192.168.8.0 netmask 255.255.255.0 dev br-lan
+			route add -net $NET netmask 255.255.255.0 dev br-lan
 			udhcpc -i $DNIC -q
 		fi
 # Uncomment to enable VPN status LED
