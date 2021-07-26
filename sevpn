@@ -25,7 +25,7 @@ function fetchip() {
 			printf '%s\n' "Couldn't fetch IP address. Something went wrong. The router may not be connected to the Internet."
 		fi
 	fi
-	printf '%s\n' "Connection up. Your new IP address is: $IP4"
+	echo $IP4
 }
 start() {
 	LOCK=/var/lock/sevpn.lock
@@ -37,12 +37,13 @@ start() {
 		DNIC=$(/sbin/ip route | awk '/default/ { print $5 }')
 		DEFAULT=$(/sbin/ip route | awk '/default/ { print $3; exit }')
 		NET=$(/sbin/ip address | awk '/br-lan/ {print $0}' | awk '/inet/ {print $2}' | awk -F. '{print $1 "." $2 "." $3 ".0"; exit}')
-# Uncomment to enable VPN status LED
-#		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
-#		echo netdev> /sys/class/leds/$LEDVPN/trigger
-#		echo vpn_0> /sys/class/leds/$LEDVPN/device_name
-#		echo '1'> /sys/class/leds/$LEDVPN/tx
-#		echo '1'> /sys/class/leds/$LEDVPN/rx
+# Comment lines from here to disable VPN status LED
+		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
+		echo netdev> /sys/class/leds/$LEDVPN/trigger
+		echo vpn_0> /sys/class/leds/$LEDVPN/device_name
+		echo '1'> /sys/class/leds/$LEDVPN/tx
+		echo '1'> /sys/class/leds/$LEDVPN/rx
+# Comment lines until here to disable VPN status LED
 		echo $DNIC > "/tmp/sevpn-dnic"
 		ip r flush table main
 		route add -net $NET netmask 255.255.255.0 dev br-lan
@@ -50,9 +51,16 @@ start() {
 		ip r a $SERVER via $DEFAULT
 		udhcpc -i vpn_0 -q
 		iptables -A forwarding_rule -o vpn_0 -j ACCEPT
-		fetchip
-		rm $LOCK
-		exit 0
+		IPPUB=$(fetchip)
+		if [ $IPPUB = $SERVER ]; then
+			echo "VPN is connected. Your new IP address is: ${IPPUB}"
+			rm $LOCK
+			exit 0
+		else
+			echo "VPN is not connected or traffic not routed. Retrying..."
+			rm $LOCK
+			/etc/init.d/sevpn restart
+		fi
 	}
 	function connect() {
 		vpncmd localhost /CLIENT /CMD AccountConnect $ACCOUNT
@@ -109,11 +117,13 @@ stop() {
 			route add -net $NET netmask 255.255.255.0 dev br-lan
 			udhcpc -i $DNIC -q
 		fi
-# Uncomment to enable VPN status LED
-#		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
-#		echo '0'> /sys/class/leds/$LEDVPN/tx
-#		echo '0'> /sys/class/leds/$LEDVPN/rx
-		fetchip
+# Comment lines from here to disable VPN status LED
+		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
+		echo '0'> /sys/class/leds/$LEDVPN/tx
+		echo '0'> /sys/class/leds/$LEDVPN/rx
+# Comment lines until here to disable VPN status LED
+		IPPUB=$(fetchip)
+		echo "Your new IP address is: ${IPPUB}"
 		rm $LOCK
 	}
 	ready stop
