@@ -14,17 +14,11 @@ read -p "Enter VPN user password: " PASSWD
 echo "OK. Installing..."
 
 # Download packages
-opkg install softethervpn
+opkg install softethervpn-client
 if [ $? -ne 0 ]; then
 	echo "Failed to install SoftEther VPN. Run 'opkg update' and try again."
 	exit 1
 fi
-
-# Stop and disable redundant services
-/etc/init.d/softethervpnbridge disable
-/etc/init.d/softethervpnserver disable
-/etc/init.d/softethervpnbridge stop
-/etc/init.d/softethervpnserver stop
 
 # Create VPN interface
 vpncmd localhost /CLIENT /CMD NicCreate 0
