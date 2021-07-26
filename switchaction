@@ -9,16 +9,16 @@ set_function(){
 	switch_disabled="0"
 	switch_enabled=$(uci get glconfig.switch_button.enable)
 	switch_func=$(uci get glconfig.switch_button.function)
-	switch_left=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
+	switch_left=$(grep -o "right.*hi" /sys/kernel/debug/gpio)
 	if [ "$switch_disabled" = "1" ] || [ "$switch_enabled" != "1" ]; then
 		rm $LOCK
 		exit 0
 	fi
 	#if switch is on left
-	if [ -n "$switch_left" ]; then
+	if [ "$switch_left" ]; then
 		case "$switch_func" in
 			"sevpn")
-				/etc/init.d/sevpn start > /var/log/sevpn.log 
+				(/etc/init.d/sevpn start & date) > /var/log/sevpn.log 
 			;;
 			"*")
 			;;
@@ -26,7 +26,7 @@ set_function(){
 	else
 		case "$switch_func" in
 			"sevpn")
-				/etc/init.d/sevpn stop > /var/log/sevpn.log
+				(/etc/init.d/sevpn start & date) > /var/log/sevpn.log
 			;;
 			"*")
 			;;
