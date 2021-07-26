@@ -41,7 +41,8 @@ start() {
 #		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
 #		echo netdev> /sys/class/leds/$LEDVPN/trigger
 #		echo vpn_0> /sys/class/leds/$LEDVPN/device_name
-#		echo 'link tx rx'> /sys/class/leds/$LEDVPN/mode
+#		echo '1'> /sys/class/leds/$LEDVPN/tx
+#		echo '1'> /sys/class/leds/$LEDVPN/rx
 		echo $DNIC > "/tmp/sevpn-dnic"
 		ip r flush table main
 		route add -net $NET netmask 255.255.255.0 dev br-lan
@@ -109,7 +110,8 @@ stop() {
 		fi
 # Uncomment to enable VPN status LED
 #		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
-#		echo 'none'> /sys/class/leds/$LEDVPN/mode
+#		echo '0'> /sys/class/leds/$LEDVPN/tx
+#		echo '0'> /sys/class/leds/$LEDVPN/rx
 		fetchip
 		rm $LOCK
 	}
