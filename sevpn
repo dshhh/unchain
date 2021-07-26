@@ -103,6 +103,7 @@ stop() {
 		vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
 		if [ -f /tmp/sevpn-dnic ]; then
 			DNIC=$(cat /tmp/sevpn-dnic)
+			NET=$(/sbin/ip address | awk '/br-lan/ {print $0}' | awk '/inet/ {print $2}' | awk -F. '{print $1 "." $2 "." $3 ".0"; exit}')
 			rm /tmp/sevpn-dnic
 			ip r flush table main
 			route add -net $NET netmask 255.255.255.0 dev br-lan
