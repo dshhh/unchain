@@ -37,13 +37,13 @@ start() {
 		DNIC=$(/sbin/ip route | awk '/default/ { print $5 }')
 		DEFAULT=$(/sbin/ip route | awk '/default/ { print $3; exit }')
 		NET=$(/sbin/ip address | awk '/br-lan/ {print $0}' | awk '/inet/ {print $2}' | awk -F. '{print $1 "." $2 "." $3 ".0"; exit}')
-# Comment lines from here to disable VPN status LED
+# Comment lines from here to disable VPN status LED (1/2)
 		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
 		echo netdev> /sys/class/leds/$LEDVPN/trigger
 		echo vpn_0> /sys/class/leds/$LEDVPN/device_name
 		echo '1'> /sys/class/leds/$LEDVPN/tx
 		echo '1'> /sys/class/leds/$LEDVPN/rx
-# Comment lines until here to disable VPN status LED
+# Comment lines until here to disable VPN status LED (1/2)
 		echo $DNIC > "/tmp/sevpn-dnic"
 		ip r flush table main
 		route add -net $NET netmask 255.255.255.0 dev br-lan
@@ -117,11 +117,11 @@ stop() {
 			route add -net $NET netmask 255.255.255.0 dev br-lan
 			udhcpc -i $DNIC -q
 		fi
-# Comment lines from here to disable VPN status LED
+# Comment lines from here to disable VPN status LED (2/2)
 		LEDVPN=$(/bin/ls /sys/class/leds/ | awk '/:wan/ || /:lan/ { print $0 }')
 		echo '0'> /sys/class/leds/$LEDVPN/tx
 		echo '0'> /sys/class/leds/$LEDVPN/rx
-# Comment lines until here to disable VPN status LED
+# Comment lines until here to disable VPN status LED (2/2)
 		IPPUB=$(fetchip)
 		echo "Your new IP address is: ${IPPUB}"
 		rm $LOCK
