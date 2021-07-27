@@ -2,7 +2,7 @@
 
 # Pre configured parameters
 PORT=443
-USERNM=u2ch412default
+USERNM=unchain_default
 HUB=vhub
 ACCOUNT=vpn_0
 
