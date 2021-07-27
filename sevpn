@@ -57,6 +57,7 @@ start() {
 			rm $LOCK
 			exit 0
 		else
+			echo "IP address: ${IPPUB}"
 			echo "VPN is not connected or traffic is not being routed properly. Retrying..."
 			rm $LOCK
 			/etc/init.d/sevpn restart
