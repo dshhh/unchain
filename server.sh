@@ -1,8 +1,8 @@
 #!/bin/sh
-# This install script will build the latest stable version of SoftEther VPN on this system, including SecureNAT, a virtual hub and a user
+# This install script builds the latest stable version of SoftEther VPN, and configures SecureNAT, a virtual hub and a user
 
 # Generic variables
-USERNM=u2ch412default
+USERNM=unchain_default
 HUB=vhub
 
 # User variables
