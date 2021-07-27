@@ -80,7 +80,7 @@ start() {
 					proceed
 				else
 						vpncmd localhost /CLIENT /CMD AccountDisconnect vpn_0
-						echo "$SERVER:443:u2ch412_default-vhub-$ACCOUNT: Path or Host down. Retrying..."
+						echo "$SERVER:443:unchain-vhub-$ACCOUNT: Path or Host down. Retrying..."
 						sleep 2
 						connect
 				fi
