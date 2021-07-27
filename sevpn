@@ -57,7 +57,7 @@ start() {
 			rm $LOCK
 			exit 0
 		else
-			echo "VPN is not connected or traffic not routed. Retrying..."
+			echo "VPN is not connected or traffic is not being routed properly. Retrying..."
 			rm $LOCK
 			/etc/init.d/sevpn restart
 		fi
