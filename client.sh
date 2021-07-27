@@ -59,7 +59,7 @@ EOT
 echo VPN is ready.
 sleep 1
 echo 'Use side switch to start/stop VPN. (Left = ON / Right = OFF)'
-SWITCH_LEFT=$(grep -o "left.*hi" /sys/kernel/debug/gpio)
+SWITCH_LEFT=$(grep -o "right.*hi" /sys/kernel/debug/gpio)
 if [ -n "$SWITCH_LEFT" ]; then
 	read -t 15 -r -p "VPN is ready. Establish connection now? [y/N] " response
 	case "$response" in
