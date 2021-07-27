@@ -6,10 +6,10 @@ USERNM=unchain_default
 HUB=vhub
 
 # User variables
-read -p 'Set VPN user password (Please only use letters and numbers [a-zA-Z0-9], periods [.], and exclamation marks [!]): ' PASSWD
+read -p 'Set VPN user password (Use letters and numbers [a-zA-Z0-9], periods [.], and/or exclamation marks [!]): ' PASSWD
 USERNMLC=$(echo "$USERNM" | tr '[:upper:]' '[:lower:]')
 
-echo "That's it. Starting setup in 3..."; sleep 1; echo "2..."; sleep 1; echo "1..."
+echo "OK. Installing..."
 
 # Add user to run service in user space
 adduser --disabled-password --gecos '' $USERNMLC
