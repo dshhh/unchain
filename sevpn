@@ -22,7 +22,7 @@ function fetchip() {
 	if [ $? -ne 0 ]; then
 		IP4=$(curl -s checkip.amazonaws.com)
 		if [ $? -ne 0 ]; then
-			printf '%s\n' "Couldn't fetch IP address. Something went wrong. The router may not be connected to the Internet."
+			printf '%s\n' "Unable to fetch a public IP address. Something went wrong. The router may not be connected to the Internet."
 		fi
 	fi
 	echo $IP4
